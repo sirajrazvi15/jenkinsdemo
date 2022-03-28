@@ -36,12 +36,26 @@ pipeline {
     }
 
     stage('Deploy ') {
-      input {
-        message 'shell we deploy to production'
-        id 'yes we may proceed'
-      }
-      steps {
-        echo 'Hello to everyone'
+      parallel {
+        stage('Deploy ') {
+          input {
+            message 'shell we deploy to production'
+            id 'yes we may proceed'
+          }
+          steps {
+            echo 'Hello to everyone'
+          }
+        }
+
+        stage('deploy2') {
+          steps {
+            retry(count: 50) {
+              sleep 10
+            }
+
+          }
+        }
+
       }
     }
 
