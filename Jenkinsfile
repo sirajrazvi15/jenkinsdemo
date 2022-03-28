@@ -1,43 +1,65 @@
 pipeline {
-    agent any
-
-    stages {
+  agent any
+  stages {
+    stage('unit test ') {
+      parallel {
         stage('unit test ') {
-            steps {
-                echo 'Hello to everyone'
-            }
-    }
-            stage('build ') {
-            steps {
-                echo 'Hello to everyone'
-       
-            }
-    }        
-            stage('Deploy ') {
-                input {
-                    message 'shell we deploy to production'
-                    ok "yes we may proceed"
-                }
+          steps {
+            echo 'Hello to everyone'
+          }
+        }
 
-            steps {
-                echo 'Hello to everyone'
-            }
-    }
-            stage('deploytoprod ') {
-            steps {
-                echo 'Hello to everyone'
-            }
-            
+        stage('test2') {
+          steps {
+            sh 'echo "hello devops engineer"'
+          }
         }
+
+      }
     }
-    post {
-        always {
-          echo 'always run the project'
+
+    stage('build ') {
+      parallel {
+        stage('build ') {
+          steps {
+            echo 'Hello to everyone'
+          }
         }
-       failure {
-          echo 'fail and run'
-           
+
+        stage('build2') {
+          steps {
+            sleep 50
+          }
         }
-        
+
+      }
     }
+
+    stage('Deploy ') {
+      input {
+        message 'shell we deploy to production'
+        id 'yes we may proceed'
+      }
+      steps {
+        echo 'Hello to everyone'
+      }
+    }
+
+    stage('deploytoprod ') {
+      steps {
+        echo 'Hello to everyone'
+      }
+    }
+
+  }
+  post {
+    always {
+      echo 'always run the project'
+    }
+
+    failure {
+      echo 'fail and run'
+    }
+
+  }
 }
